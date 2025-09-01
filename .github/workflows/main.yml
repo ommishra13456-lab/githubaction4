@@ -22,6 +22,73 @@ jobs:
     env:
      username: "chiku"
      password: ${{secrets.MY_PASS}}
+ jobs3:
+  runs-on: ubuntu-latest
+  outputs: 
+   username: ${{steps.steps1.outputs.username}}
+   password: ${{steps.steps1.outputs.password}}
+  steps: 
+   - id: steps1
+     run: |
+      echo "username="chiku"" >> GITHUB_OUTPUT
+      echo "password=911" >> GITHUB_OUTPUT
+ jobs4:
+  runs-on: ubuntu-latest
+  needs: jobs3
+  steps: 
+  - name: useoutput
+    run: echo "outputusehere:${{needs.jobs3.outputs.username}} and ${{needs.jobs3.outputs.password}}"
+ jobs5:
+  runs-on: ubuntu-latest
+  steps:
+  - name: artifactuse
+    run: echo "chiku is here" > first.txt
+  - name: useartifact
+    uses: actions/upload-artifact@v4
+    with:
+     name: uploadartifact
+     path: first.txt
+ jobs6:
+  runs-on: ubuntu-latest
+  needs: jobs5
+  steps:
+  - name: useartifact
+    uses: actions/download-artifact@v4
+    with:
+     name: uploadartifact
+     run: cat first.txt
+ jobs7:
+  runs-on: ubuntu-latest
+  steps:
+  - name: cache
+    uses: actions/cache@v4
+    with:
+     path: ~/.npm
+     key: ${{runner.os}}-node-${{hashfiles('**/package-lock.json')}}
+     restore-keys: |
+      ${{runner.os}}-node-
+  - name: installdependecies 
+    run: npm ci
+  - name: build
+    run: npm run build
+  - name: condition 
+    if: success()
+    run: "it is success" 
+ jobs8:
+  runs-on: ubuntu-latest
+  steps:
+  - name: ifcondition
+    if: github.ref == 'refs/heads/main'
+    run: echo "run it"
+    
+    
+  
+    
+     
+     
+     
+     
+     
     
  
 
