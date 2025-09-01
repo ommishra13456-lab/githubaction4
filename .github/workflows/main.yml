@@ -22,6 +22,7 @@ jobs:
     env:
      username: "chiku"
      password: ${{secrets.MY_PASS}}
+     run: echo "my username is $username and $password"
  jobs3:
   runs-on: ubuntu-latest
   outputs: 
