@@ -1,0 +1,30 @@
+name: githubaction4
+on:
+ push:
+  branches:
+   - main
+ workflow_dispatch:
+ pull_request:
+  branches:
+   - main
+ schedule: 
+   - cron: "0 0 * * *"
+jobs:
+ jobs1: 
+  runs-on: ubuntu-latest
+  steps: 
+  - name: printhello
+    run: echo "helloworld"
+ jobs2:
+  runs-on: ubuntu-latest
+  steps: 
+  - name: envandsecrets
+    env:
+     username: "chiku"
+     password: ${{secrets.MY_PASS}}
+    
+ 
+
+   
+
+  
